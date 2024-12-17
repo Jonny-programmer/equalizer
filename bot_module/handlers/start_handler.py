@@ -1,12 +1,10 @@
-import os
-
 from aiogram import Router, F
 from aiogram.filters import Command
-from aiogram.types import Message, InlineKeyboardMarkup, CallbackQuery, FSInputFile, Audio
+from aiogram.types import Message, CallbackQuery, FSInputFile
 
 from FFT.fft_animate.plotting import Convert_to_mp4
-from bot_module.keyboards import generate_yes_no_kb
 from bot_module.keyboards import *
+from overlay_AA import overlay_audio_on_video
 from search.search_music import get_track, download_track
 
 router = Router()  # [1]
@@ -37,8 +35,12 @@ async def callback_query(msg: CallbackQuery):
     filename += ".mp3"
     audio_from_pc = FSInputFile(f"./data/audio/{filename}")
     await msg.message.answer_audio(audio_from_pc, caption=text_track[:1000])
+    print("Аудио отправлено!")
+    await msg.answer("Всё окей, делаем видеоролик. Подождите...")
+    Convert_to_mp4(f"./data/audio/{filename}", out_path="./data/video/without_music.mp4")
+    overlay_audio_on_video("./data/video/without_music.mp4", f"./data/audio/{filename}",
+                           "./data/video/send_it.mp4", 0, 60)
 
-    Convert_to_mp4(f"./data/audio/{filename}", out_path="./data/video/send_it.mp4")
     await msg.message.answer_video(FSInputFile("./data/video/send_it.mp4"))
     # os.remove(filename+".mp3")
 

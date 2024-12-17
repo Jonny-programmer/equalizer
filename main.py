@@ -1,6 +1,8 @@
 import asyncio
 import configparser
 import logging
+import sys
+
 from aiogram import Bot, Dispatcher
 from bot_module.handlers import start_handler
 
@@ -14,6 +16,7 @@ bot = Bot(token=tg_token)
 # Диспетчер
 dp = Dispatcher()
 dp.include_routers(start_handler.router)
+ffmpeg = "/Users/eremin/Downloads/ffmpeg"
 
 
 async def main():
