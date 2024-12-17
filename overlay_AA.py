@@ -1,12 +1,11 @@
 import ffmpeg
 
+def overlay_audio_on_video(video, sound, res_path, t0, t1):
+    video = ffmpeg.input(video, ss=t0, t=t1 - t0)
 
-def overlay_audio_on_video(video_file, audio_file, output_file, start_time, end_time):
-    video = ffmpeg.input(video_file, ss=start_time, t=end_time - start_time)
+    audio = ffmpeg.input(sound)
 
-    audio = ffmpeg.input(audio_file)
-
-    ffmpeg.output(video, audio, output_file, vcodec="copy", acodec="aac").run(overwrite_output=True)
+    ffmpeg.output(video, audio, res_path, vcodec="copy", acodec="mp3").run(overwrite_output=True)
 
 
 video_file = "/Users/eremin/Desktop/Films/eric_chien.mp4"

@@ -1,2 +1,5 @@
 yandex-music~=2.2.0
 aiogram~=3.15.0
+matplotlib~=3.8.0
+numpy~=2.0.2
+librosa~=0.10.2
