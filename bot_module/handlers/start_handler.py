@@ -4,8 +4,8 @@ from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardMarkup, CallbackQuery, FSInputFile, Audio
 
+from FFT.fft_animate.plotting import Convert_to_mp4
 from bot_module.keyboards import generate_yes_no_kb
-from FFT.test import *
 from bot_module.keyboards import *
 from search.search_music import get_track, download_track
 
@@ -34,11 +34,12 @@ async def track_search(msg: Message):
 async def callback_query(msg: CallbackQuery):
     await msg.answer("Этот маленький маневр может вам стоить 51 год")
     text_track, filename = download_track()
-    audio_from_pc = FSInputFile(filename+".mp3")
+    filename += ".mp3"
+    audio_from_pc = FSInputFile(f"./data/audio/{filename}")
     await msg.message.answer_audio(audio_from_pc, caption=text_track[:1000])
 
-    create_video(filename+".mp3", "send_it.mp4")
-    await msg.message.answer_video(FSInputFile("send_it.mp4"))
+    Convert_to_mp4(f"./data/audio/{filename}", out_path="./data/video/send_it.mp4")
+    await msg.message.answer_video(FSInputFile("./data/video/send_it.mp4"))
     # os.remove(filename+".mp3")
 
 

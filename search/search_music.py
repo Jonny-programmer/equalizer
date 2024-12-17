@@ -41,7 +41,7 @@ def get_track(string):
 def download_track():
     for el in client.tracks_download_info(res.id, get_direct_links=True):
         if el['codec'] == 'mp3' and el['bitrate_in_kbps'] == 192:
-            client._request.download(el['direct_link'], f"{filename}.mp3")
+            client._request.download(el['direct_link'], f"./data/audio/{filename}.mp3")
             try:
                 lyrics = res.get_lyrics('LRC')
                 text_track = lyrics.fetch_lyrics() + "\n" + f'\nИсточник: {lyrics.major.pretty_name}' + "\n"
